@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class FavoriteScreen extends StatefulWidget {
   final List<Map<String, dynamic>> favoriteGolds;
+  final Function toggleFavoriteGold;
 
-  FavoriteScreen(this.favoriteGolds);
+  FavoriteScreen(this.favoriteGolds, this.toggleFavoriteGold);
 
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
@@ -35,10 +36,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     subtitle: Text("Fiyat: ${item["sell"] ?? "Yok"} TL"),
                     trailing: IconButton(
                       icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border),
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
                       onPressed: () {
                         setState(() {
-                          item["isFavorite"] = !isFavorite;
+                          widget.toggleFavoriteGold(item);
                         });
                       },
                     ),

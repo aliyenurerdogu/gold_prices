@@ -18,12 +18,13 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
   List<Map<String, Object>> favoriteGolds = [];
 
+  @override
   void initState() {
     super.initState();
     loadFavorites();
   }
 
-  void toggleFavoriteGold(dynamic item) {
+  void toggleFavoriteGold(Map<String, dynamic> item) async {
     setState(() {
       if (favoriteGolds.any((gold) => gold["key"] == item["key"])) {
         favoriteGolds.removeWhere((gold) => gold["key"] == item["key"]);
@@ -31,10 +32,11 @@ class _MyAppState extends State<MyApp> {
         favoriteGolds.add({...item, "isFavorite": true});
       }
     });
-    saveFavoriteGolds();
+
+    await saveFavoriteGolds();
   }
 
-  void loadFavorites() async {
+  Future<void> loadFavorites() async {
     List<String> favoriteKeys = await getData("favorites");
     setState(() {
       favoriteGolds =
@@ -42,7 +44,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void saveFavoriteGolds() async {
+  Future<void> saveFavoriteGolds() async {
     List<String> favoriteKeys =
         favoriteGolds.map((item) => item["key"].toString()).toList();
     await saveData("favorites", favoriteKeys);
@@ -57,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           index: _selectedIndex,
           children: [
             GoldPriceScreen(toggleFavoriteGold, favoriteGolds),
-            FavoriteScreen(favoriteGolds),
+            FavoriteScreen(favoriteGolds, toggleFavoriteGold),
             CartScreen(),
             ProfileScreen(),
           ],
