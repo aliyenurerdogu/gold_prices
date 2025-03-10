@@ -26,14 +26,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               itemCount: widget.favoriteGolds.length,
               itemBuilder: (context, index) {
                 final item = widget.favoriteGolds[index];
-                bool isFavorite = item["isFavorite"];
+                //print(item);
 
                 return Card(
                   color: const Color.fromARGB(255, 229, 205, 134),
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
                     title: Text(item["key"] ?? "Bilinmeyen"),
-                    subtitle: Text("Fiyat: ${item["sell"] ?? "Yok"} TL"),
+                    subtitle: Text("Satış: ${item["sell"] ?? "Yok"} TL"),
                     trailing: IconButton(
                       icon: Icon(
                         Icons.favorite,
